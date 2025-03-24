@@ -2,6 +2,71 @@
 
 ### Lundi
 
+## Activity #1: Create your graph data model and generate the Cypher and image of your model
+
+See the graph data model
+
+Cypher script for creating the data model:
+
+```cypher
+CREATE (:Person {Name: "Sylvain", Age: 25})<-[:KNOWS]-(n0:Person {Name: "Thomas", Age: 22})-[:OWNS]->(:Animal {Type: "Cat"}),
+(:Person {Name: "Charley", Age: 29})<-[:KNOWS]-(n0)-[:KNOWS]->(:Person {Name: "Martin", Age: 22})
+```
+
+![graph1](./assets/graph1.png)
+
+## Activity #2: Run these queries of your graph model in Neo4j
+
+Run the following Cypher queries:
+
+```cypher
+MATCH (n:Person)
+RETURN n
+
+```
+
+```bash
+╒═════════════════════════════════════════════════════════════╕
+│n                                                            │
+╞═════════════════════════════════════════════════════════════╡
+│(:Person {Name: "Sylvain", Age: 25})                          │
+│(:Person {Name: "Thomas", Age: 22})                           │
+│(:Person {Name: "Charley", Age: 29})                          │
+│(:Person {Name: "Martin", Age: 22})                           │
+└─────────────────────────────────────────────────────────────┘
+```
+
+```cypher
+MATCH (a:Person)-[r:OWNS]->(b:Animal)
+RETURN a, r, b
+
+```
+
+```bash
+╒═════════════════════════════════════════════════════════════╤══════════════════════════╤══════════════════════════════════════════════════════╕
+│a                                                            │r                         │b                                                     │
+╞═════════════════════════════════════════════════════════════╪══════════════════════════╪══════════════════════════════════════════════════════╡
+│(:Person {Name: "Thomas", Age: 22})                          │[:OWNS]                   │(:Animal {Type: "Cat"})                               │
+└─────────────────────────────────────────────────────────────┴──────────────────────────┴──────────────────────────────────────────────────────┘
+```
+
+```cypher
+
+MATCH (a:Person)-[r:KNOWS]->(b:Person)
+RETURN a.Name AS person_a_name, a.Age AS person_a_age, b.Name AS person_b_name, b.Age AS person_b_age
+
+```
+
+```bash
+╒══════════════════════════════════════════════╤══════════════════════════════════════════════════════╤══════════════════════════════════════════════════════╕
+│person_a_name                                 │person_a_age                                         │person_b_name                                          │
+╞══════════════════════════════════════════════╪══════════════════════════════════════════════════════╪══════════════════════════════════════════════════════╡
+│"Thomas"                                      │22                                                    │"Sylvain"                                              │
+│"Thomas"                                      │22                                                    │"Charley"                                              │
+│"Charley"                                     │29                                                    │"Martin"                                               │
+└──────────────────────────────────────────────┴──────────────────────────────────────────────────────┴──────────────────────────────────────────────────────┘
+```
+
 
 #### Activité 3
 
