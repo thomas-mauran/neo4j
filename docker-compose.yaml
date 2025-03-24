@@ -1,0 +1,21 @@
+services:
+  
+  # Neo4j
+  neo4j:
+    image: neo4j
+    environment:
+      NEO4J_PLUGINS: "[\"apoc\", \"apoc-extended\"]"
+      NEO4J_AUTH: neo4j/password
+      NEO4J_dbms_security_procedures_allowlist: gds.*, apoc.*
+      NEO4J_dbms_security_procedures_unrestricted: gds.*, apoc.*
+    ports:
+      - 7474:7474
+      - 7473:7473
+      - 7687:7687
+    volumes:
+      - neo4j_data:/bitnami/neo4j
+      # - ./backend/recommendation/apoc.conf:/var/lib/neo4j/conf/apoc.conf
+      # - ./backend/recommendation/schema.cypher:/var/lib/neo4j/db_init/schema.cypher
+
+volumes:
+  neo4j_data:
